@@ -1,0 +1,4 @@
+#Sat Nov 19 13:51:23 CST 2016
+base.0=C\:\\Users\\Drew\\Downloads\\FTC\\ftc_app-master\\TeamCode\\build\\intermediates\\transforms\\dex\\debug\\folders\\1000\\1f\\main
+renamed.0=classes.dex
+file.0=C\:\\Users\\Drew\\Downloads\\FTC\\ftc_app-master\\TeamCode\\build\\intermediates\\transforms\\dex\\debug\\folders\\1000\\1f\\main\\classes.dex
