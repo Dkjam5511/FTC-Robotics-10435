@@ -1,5 +1,31 @@
 [
     {
+        "outputFile": "C:\\Users\\bakie\\Desktop\\FTC-Robotics-10435\\FtcRobotController\\build\\intermediates\\incremental\\mergeDebugResources\\merged.dir\\values-v11\\values-v11.xml",
+        "map": [
+            {
+                "to": {
+                    "startLine": 2,
+                    "startColumn": 4,
+                    "startOffset": 55,
+                    "endLine": 4,
+                    "endColumn": 12,
+                    "endOffset": 187
+                },
+                "from": {
+                    "file": "C:\\Users\\bakie\\Desktop\\FTC-Robotics-10435\\FtcRobotController\\src\\main\\res\\values-v11\\styles.xml",
+                    "position": {
+                        "startLine": 39,
+                        "startColumn": 4,
+                        "startOffset": 1865,
+                        "endLine": 41,
+                        "endColumn": 12,
+                        "endOffset": 1999
+                    }
+                }
+            }
+        ]
+    },
+    {
         "outputFile": "C:\\Users\\Drew\\Downloads\\FTC\\ftc_app-master\\FtcRobotController\\build\\intermediates\\incremental\\mergeDebugResources\\merged.dir\\values-v11\\values-v11.xml",
         "map": [
             {

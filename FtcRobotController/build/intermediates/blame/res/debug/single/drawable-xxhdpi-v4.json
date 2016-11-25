@@ -2,5 +2,9 @@
     {
         "merged": "C:\\Users\\Drew\\Downloads\\FTC\\ftc_app-master\\FtcRobotController\\build\\intermediates\\res\\merged\\debug\\drawable-xxhdpi-v4\\ic_launcher.png",
         "source": "C:\\Users\\Drew\\Downloads\\FTC\\ftc_app-master\\FtcRobotController\\src\\main\\res\\drawable-xxhdpi\\ic_launcher.png"
+    },
+    {
+        "merged": "C:\\Users\\bakie\\Desktop\\FTC-Robotics-10435\\FtcRobotController\\build\\intermediates\\res\\merged\\debug\\drawable-xxhdpi-v4\\ic_launcher.png",
+        "source": "C:\\Users\\bakie\\Desktop\\FTC-Robotics-10435\\FtcRobotController\\src\\main\\res\\drawable-xxhdpi\\ic_launcher.png"
     }
 ]
