@@ -1,5 +1,9 @@
 [
     {
+        "merged": "C:\\Users\\bakie\\Desktop\\FTC-Robotics-10435\\FtcRobotController\\build\\intermediates\\res\\merged\\androidTest\\debug\\xml\\k9legacybot.xml",
+        "source": "C:\\Users\\bakie\\Desktop\\FTC-Robotics-10435\\FtcRobotController\\build\\intermediates\\exploded-aar\\FtcCommon-release\\res\\xml\\k9legacybot.xml"
+    },
+    {
         "merged": "C:\\Users\\Drew\\Downloads\\FTC\\ftc_app-master\\FtcRobotController\\build\\intermediates\\res\\merged\\androidTest\\debug\\xml\\k9legacybot.xml",
         "source": "C:\\Users\\Drew\\Downloads\\FTC\\ftc_app-master\\FtcRobotController\\build\\intermediates\\exploded-aar\\FtcCommon-release\\res\\xml\\k9legacybot.xml"
     },
@@ -8,8 +12,28 @@
         "source": "C:\\Users\\Drew\\Downloads\\FTC\\ftc_app-master\\FtcRobotController\\build\\intermediates\\exploded-aar\\FtcCommon-release\\res\\xml\\pushbot.xml"
     },
     {
+        "merged": "C:\\Users\\bakie\\Desktop\\FTC-Robotics-10435\\FtcRobotController\\build\\intermediates\\res\\merged\\androidTest\\debug\\xml\\device_filter.xml",
+        "source": "C:\\Users\\bakie\\Desktop\\FTC-Robotics-10435\\FtcRobotController\\build\\intermediates\\bundles\\debug\\res\\xml\\device_filter.xml"
+    },
+    {
         "merged": "C:\\Users\\Drew\\Downloads\\FTC\\ftc_app-master\\FtcRobotController\\build\\intermediates\\res\\merged\\androidTest\\debug\\xml\\squarebot.xml",
         "source": "C:\\Users\\Drew\\Downloads\\FTC\\ftc_app-master\\FtcRobotController\\build\\intermediates\\exploded-aar\\FtcCommon-release\\res\\xml\\squarebot.xml"
+    },
+    {
+        "merged": "C:\\Users\\bakie\\Desktop\\FTC-Robotics-10435\\FtcRobotController\\build\\intermediates\\res\\merged\\androidTest\\debug\\xml\\squarebot.xml",
+        "source": "C:\\Users\\bakie\\Desktop\\FTC-Robotics-10435\\FtcRobotController\\build\\intermediates\\exploded-aar\\FtcCommon-release\\res\\xml\\squarebot.xml"
+    },
+    {
+        "merged": "C:\\Users\\bakie\\Desktop\\FTC-Robotics-10435\\FtcRobotController\\build\\intermediates\\res\\merged\\androidTest\\debug\\xml\\preferences.xml",
+        "source": "C:\\Users\\bakie\\Desktop\\FTC-Robotics-10435\\FtcRobotController\\build\\intermediates\\bundles\\debug\\res\\xml\\preferences.xml"
+    },
+    {
+        "merged": "C:\\Users\\bakie\\Desktop\\FTC-Robotics-10435\\FtcRobotController\\build\\intermediates\\res\\merged\\androidTest\\debug\\xml\\k9usbbot.xml",
+        "source": "C:\\Users\\bakie\\Desktop\\FTC-Robotics-10435\\FtcRobotController\\build\\intermediates\\exploded-aar\\FtcCommon-release\\res\\xml\\k9usbbot.xml"
+    },
+    {
+        "merged": "C:\\Users\\bakie\\Desktop\\FTC-Robotics-10435\\FtcRobotController\\build\\intermediates\\res\\merged\\androidTest\\debug\\xml\\pushbot.xml",
+        "source": "C:\\Users\\bakie\\Desktop\\FTC-Robotics-10435\\FtcRobotController\\build\\intermediates\\exploded-aar\\FtcCommon-release\\res\\xml\\pushbot.xml"
     },
     {
         "merged": "C:\\Users\\Drew\\Downloads\\FTC\\ftc_app-master\\FtcRobotController\\build\\intermediates\\res\\merged\\androidTest\\debug\\xml\\device_filter.xml",
@@ -18,6 +42,10 @@
     {
         "merged": "C:\\Users\\Drew\\Downloads\\FTC\\ftc_app-master\\FtcRobotController\\build\\intermediates\\res\\merged\\androidTest\\debug\\xml\\k9usbbot.xml",
         "source": "C:\\Users\\Drew\\Downloads\\FTC\\ftc_app-master\\FtcRobotController\\build\\intermediates\\exploded-aar\\FtcCommon-release\\res\\xml\\k9usbbot.xml"
+    },
+    {
+        "merged": "C:\\Users\\bakie\\Desktop\\FTC-Robotics-10435\\FtcRobotController\\build\\intermediates\\res\\merged\\androidTest\\debug\\xml\\pushbotsens.xml",
+        "source": "C:\\Users\\bakie\\Desktop\\FTC-Robotics-10435\\FtcRobotController\\build\\intermediates\\exploded-aar\\FtcCommon-release\\res\\xml\\pushbotsens.xml"
     },
     {
         "merged": "C:\\Users\\Drew\\Downloads\\FTC\\ftc_app-master\\FtcRobotController\\build\\intermediates\\res\\merged\\androidTest\\debug\\xml\\pushbotsens.xml",
