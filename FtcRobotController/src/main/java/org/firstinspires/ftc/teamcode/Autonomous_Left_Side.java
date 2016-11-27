@@ -10,7 +10,7 @@ import static java.lang.Thread.sleep;
 /**
  * Created by Drew on 10/16/2016.
  */
-@Autonomous
+@Autonomous(name="Autonomous Left Side", group="Ball and Park")
 public class Autonomous_Left_Side extends LinearOpMode {
     //Defining Varriables
     DcMotor leftWheel;

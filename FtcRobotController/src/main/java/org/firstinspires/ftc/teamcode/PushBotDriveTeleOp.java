@@ -1,12 +1,15 @@
 package org.firstinspires.ftc.teamcode;
 
         import com.qualcomm.robotcore.eventloop.opmode.OpMode;
+        import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
         import com.qualcomm.robotcore.hardware.DcMotor;
+
+        import org.firstinspires.ftc.robotcore.external.Telemetry;
 
 /**
  * Created by Drew on 10/16/2016.
- *  */
-
+ */
+@TeleOp(name="Drive", group="Use This")
 public class PushBotDriveTeleOp extends OpMode {
 
     DcMotor leftWheel;
@@ -52,6 +55,9 @@ public class PushBotDriveTeleOp extends OpMode {
         leftWheel.setPower(leftWheelPower);
         rightWheel.setPower(rightWheelPower);
 
+        //Adding Screen Display
+        telemetry.addData("Speed", (leftWheelPower+rightWheelPower)/-2);
+        telemetry.addData("SlowMode", SlowMode);
 
     }
 

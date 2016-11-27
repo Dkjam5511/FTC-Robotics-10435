@@ -8,12 +8,12 @@
         "source": "C:\\Users\\Drew\\Downloads\\FTC\\ftc_app-master\\FtcRobotController\\build\\intermediates\\exploded-aar\\FtcCommon-release\\res\\layout\\servo_list.xml"
     },
     {
-        "merged": "C:\\Users\\bakie\\Desktop\\FTC-Robotics-10435\\FtcRobotController\\build\\intermediates\\res\\merged\\debug\\layout\\header.xml",
-        "source": "C:\\Users\\bakie\\Desktop\\FTC-Robotics-10435\\FtcRobotController\\src\\main\\res\\layout\\header.xml"
-    },
-    {
         "merged": "C:\\Users\\bakie\\Desktop\\FTC-Robotics-10435\\FtcRobotController\\build\\intermediates\\res\\merged\\debug\\layout\\pwm_device.xml",
         "source": "C:\\Users\\bakie\\Desktop\\FTC-Robotics-10435\\FtcRobotController\\build\\intermediates\\exploded-aar\\FtcCommon-release\\res\\layout\\pwm_device.xml"
+    },
+    {
+        "merged": "C:\\Users\\bakie\\Desktop\\FTC-Robotics-10435\\FtcRobotController\\build\\intermediates\\res\\merged\\debug\\layout\\header.xml",
+        "source": "C:\\Users\\bakie\\Desktop\\FTC-Robotics-10435\\FtcRobotController\\src\\main\\res\\layout\\header.xml"
     },
     {
         "merged": "C:\\Users\\Drew\\Downloads\\FTC\\ftc_app-master\\FtcRobotController\\build\\intermediates\\res\\merged\\debug\\layout\\item_list_parent.xml",
