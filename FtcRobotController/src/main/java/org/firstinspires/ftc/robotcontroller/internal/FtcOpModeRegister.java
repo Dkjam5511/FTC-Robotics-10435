@@ -71,15 +71,7 @@ public class FtcOpModeRegister implements OpModeRegister {
         /**
          * Register OpModes implemented in the Blocks visual programming language.
          */
-        manager.register("Simple Drive", PushBotDriveTeleOp.class);
 
-        manager.register("Autonomous Right Ball Corner", Autonomous_Right_Corner.class);
-
-        manager.register("Autonomous Left Ball Corner", Autonomous_Left_Corner.class);
-
-        manager.register("Autonomous Left Ball Side", Autonomous_Left_Side.class);
-
-        manager.register("Autonomous Right Ball Side", Autonomous_Right_Side.class);
 
         /**
          * Register OpModes that use the annotation-based registration mechanism.

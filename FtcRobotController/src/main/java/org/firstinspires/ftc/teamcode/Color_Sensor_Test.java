@@ -8,6 +8,8 @@ import com.qualcomm.robotcore.hardware.I2cAddr;
 import com.qualcomm.robotcore.hardware.I2cDevice;
 import com.qualcomm.robotcore.hardware.I2cDeviceSynch;
 import com.qualcomm.robotcore.hardware.I2cDeviceSynchImpl;
+import com.qualcomm.robotcore.hardware.ColorSensor;
+
 
 import org.firstinspires.ftc.robotcore.external.Telemetry;
 
@@ -96,16 +98,13 @@ public class Color_Sensor_Test extends OpMode{
         CDI.setLED(0, (Passive == 1));          //Blue light
         CDI.setLED(1, (Passive == 0));          //Red Light
 
-        // Showing data on the phone screen
         telemetry.addData("Red Right", redlevelRight);
         telemetry.addData("Blue Right", bluelevelRight);
         telemetry.addData("White Right", whitelevelRight);
         telemetry.addData("Red Left", redlevelLeft);
         telemetry.addData("Blue Left", bluelevelLeft);
         telemetry.addData("White Left", whitelevelLeft);
-
         telemetry.addData("Passive", Passive);
-
 
         //Using wheel power to test as feedback
         /*
@@ -123,6 +122,8 @@ public class Color_Sensor_Test extends OpMode{
         leftWheel.setPower(leftWheelPower);
         rightWheel.setPower(rightWheelPower);
         */
+
+
 
     }
 }

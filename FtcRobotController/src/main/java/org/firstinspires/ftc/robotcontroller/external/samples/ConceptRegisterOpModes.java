@@ -65,7 +65,6 @@ public class ConceptRegisterOpModes
   public static void registerMyOpModes(OpModeManager manager) {
     // Un-comment any line to enable that sample.
     // Or add your own lines to register your Team opmodes.
-    manager.register("My Example",       PushBotDriveTeleOp.class);
     // Basic Templates
     // manager.register("Iterative Opmode",       TemplateOpMode_Iterative.class);
     // manager.register("Linear Opmode",          TemplateOpMode_Linear.class);
