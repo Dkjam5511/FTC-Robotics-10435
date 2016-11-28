@@ -28,7 +28,7 @@ import com.qualcomm.robotcore.hardware.I2cDeviceSynch;
 import com.qualcomm.robotcore.hardware.I2cDeviceSynchImpl;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
-@TeleOp(name="Color Calibration", group="Color Sensors")
+@TeleOp(name="Color Calibration", group="Tests and Calibration")
 //@Disabled
 public class MRI_Color_Sensor_Calibration extends LinearOpMode {
 

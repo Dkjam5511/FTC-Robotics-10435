@@ -10,9 +10,10 @@ import static java.lang.Thread.sleep;
 /**
  * Created by Drew on 10/16/2016.
  */
+// If you want to see how this program works go to the Autonomous_Left_Corner class which is pretty much the same class with a few adjustments :P
 @Autonomous(name="Autonomous Right Corner", group="Ball and Park")
 public class Autonomous_Right_Corner extends LinearOpMode {
-    //Defining Varriables
+
     DcMotor leftWheel;
     DcMotor rightWheel;
     double leftWheelPower = 0;
@@ -20,10 +21,10 @@ public class Autonomous_Right_Corner extends LinearOpMode {
 
     @Override
     public void runOpMode() throws InterruptedException {
-        //Defining the wheels
+
         leftWheel = hardwareMap.dcMotor.get("left_drive");
         rightWheel = hardwareMap.dcMotor.get("right_drive");
-        //Reversing one wheel that didn't work
+
         leftWheel.setDirection(DcMotor.Direction.REVERSE);
 
         leftWheelPower = -1;

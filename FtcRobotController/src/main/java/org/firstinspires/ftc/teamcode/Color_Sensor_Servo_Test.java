@@ -8,7 +8,7 @@ import com.qualcomm.robotcore.hardware.I2cAddr;
 import com.qualcomm.robotcore.hardware.I2cDevice;
 import com.qualcomm.robotcore.hardware.I2cDeviceSynch;
 import com.qualcomm.robotcore.hardware.I2cDeviceSynchImpl;
-import com.qualcomm.robotcore.hardware.ColorSensor;
+import com.qualcomm.robotcore.hardware.Servo;
 
 
 import org.firstinspires.ftc.robotcore.external.Telemetry;
@@ -17,13 +17,14 @@ import org.firstinspires.ftc.robotcore.external.Telemetry;
 /**
  * Created by Drew on 11/26/2016.
  */
-@TeleOp(name="Color_Sensor_Test", group="Color Sensors")
-public class Color_Sensor_Test extends OpMode{
+@TeleOp(name="ColorSensor and Servo Test", group="Tests and Calibration")
+public class Color_Sensor_Servo_Test extends OpMode{
 
     DcMotor leftWheel;
     DcMotor rightWheel;
     double leftWheelPower = 0;
     double rightWheelPower = 0;
+    Servo servo;
     I2cDevice ColorRight; 
     I2cDeviceSynch ColorRightreader;  // right beacon sensor
     I2cDevice ColorLeft;
@@ -43,8 +44,10 @@ public class Color_Sensor_Test extends OpMode{
      */
     @Override
     public void init() {
+        //Defining All our Machines in the Hardware Map
         leftWheel = hardwareMap.dcMotor.get("left_drive");
         rightWheel = hardwareMap.dcMotor.get("right_drive");
+        servo = hardwareMap.servo.get("button_servo");
 
         CDI = hardwareMap.deviceInterfaceModule.get("Device Interface Module 1");
         CDI.setLED(0, false);           //Blue light OFF
@@ -70,13 +73,14 @@ public class Color_Sensor_Test extends OpMode{
      */
     @Override
     public void loop() {
+        //Setting Up Colors For Sensor Right
         TempByte = ColorRightreader.read(0x05, 1);
         redlevelRight = TempByte[0];
         TempByte = ColorRightreader.read(0x07, 1);
         bluelevelRight = TempByte[0];
         TempByte = ColorRightreader.read(0x08, 1);
         whitelevelRight = TempByte[0];
-        
+        //Setting Up Colors foe sensor Left
         TempByte = ColorLeftreader.read(0x05, 1);
         redlevelLeft = TempByte[0];
         TempByte = ColorLeftreader.read(0x07, 1);
@@ -84,6 +88,7 @@ public class Color_Sensor_Test extends OpMode{
         TempByte = ColorLeftreader.read(0x08, 1);
         whitelevelLeft = TempByte[0];
 
+        //Changing between Passive and Active light
         if (gamepad1.y){
             Passive = 1;
         }
@@ -93,11 +98,19 @@ public class Color_Sensor_Test extends OpMode{
         ColorRightreader.write8(3, Passive);
         ColorLeftreader.write8(3, Passive);
 
-        // Blue light means passive, Red light means active ...
+        // Blue light means passive, Red light means active
 
         CDI.setLED(0, (Passive == 1));          //Blue light
         CDI.setLED(1, (Passive == 0));          //Red Light
 
+        // Adding Buttons to change the survo
+        if (gamepad1.right_bumper){
+            servo.setPosition(.90);
+        } else if (gamepad1.left_bumper){
+            servo.setPosition(0);
+        }
+
+        //Adding Screen Data
         telemetry.addData("Red Right", redlevelRight);
         telemetry.addData("Blue Right", bluelevelRight);
         telemetry.addData("White Right", whitelevelRight);
@@ -106,7 +119,7 @@ public class Color_Sensor_Test extends OpMode{
         telemetry.addData("White Left", whitelevelLeft);
         telemetry.addData("Passive", Passive);
 
-        //Using wheel power to test as feedback
+        //Using wheel power to test as feedback for the color sensors
         /*
         if (redlevelRight > 2 && redlevelRight > bluelevelRight){
             rightWheelPower = 1;

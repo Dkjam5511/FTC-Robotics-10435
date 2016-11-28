@@ -25,24 +25,24 @@ public class Autonomous_Left_Corner extends LinearOpMode {
         rightWheel = hardwareMap.dcMotor.get("right_drive");
         //Reversing one wheel that didn't work
         leftWheel.setDirection(DcMotor.Direction.REVERSE);
-
+        //Setting Wheel Power
         leftWheelPower = -1;
         rightWheelPower = -1;
 
         waitForStart();
-
+        //Makes the robot go forward for 2.1 seconds
         leftWheel.setPower(leftWheelPower);
         rightWheel.setPower(rightWheelPower);
         sleep(2100);
-
+        //Turns the robot for 0.4 seconds
         leftWheel.setPower(1);
         rightWheel.setPower(-1);
         sleep(400);
-
+        //Makes the Robot go forward for 3 seconds
         leftWheel.setPower(leftWheelPower);
         rightWheel.setPower(rightWheelPower);
         sleep(3000);
-
+        //Stops the Robot
         leftWheel.setPower(0);
         rightWheel.setPower(0);
 
