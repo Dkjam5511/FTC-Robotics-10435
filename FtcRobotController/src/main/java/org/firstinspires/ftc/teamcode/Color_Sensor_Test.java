@@ -93,7 +93,7 @@ public class Color_Sensor_Test extends OpMode{
         ColorRightreader.write8(3, Passive);
         ColorLeftreader.write8(3, Passive);
 
-        // Blue light means passive, Red light means active
+        // Blue light means passive, Red light means active ...
 
         CDI.setLED(0, (Passive == 1));          //Blue light
         CDI.setLED(1, (Passive == 0));          //Red Light
