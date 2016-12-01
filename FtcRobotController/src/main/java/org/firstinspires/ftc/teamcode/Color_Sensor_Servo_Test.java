@@ -11,9 +11,6 @@ import com.qualcomm.robotcore.hardware.I2cDeviceSynchImpl;
 import com.qualcomm.robotcore.hardware.Servo;
 
 
-import org.firstinspires.ftc.robotcore.external.Telemetry;
-
-
 /**
  * Created by Drew on 11/26/2016.
  */
@@ -22,8 +19,6 @@ public class Color_Sensor_Servo_Test extends OpMode{
 
     DcMotor leftWheel;
     DcMotor rightWheel;
-    double leftWheelPower = 0;
-    double rightWheelPower = 0;
     Servo servo;
     I2cDevice ColorRight; 
     I2cDeviceSynch ColorRightreader;  // right beacon sensor
@@ -37,6 +32,9 @@ public class Color_Sensor_Servo_Test extends OpMode{
     int redlevelLeft;
     int whitelevelLeft;
     int Passive;
+    double leftWheelPower = 0;
+    double rightWheelPower = 0;
+    double servo_position;
     byte[] TempByte;
 
     /*
@@ -99,15 +97,17 @@ public class Color_Sensor_Servo_Test extends OpMode{
         ColorLeftreader.write8(3, Passive);
 
         // Blue light means passive, Red light means active
-
+        //Using the CDI to show Passive and Active
         CDI.setLED(0, (Passive == 1));          //Blue light
         CDI.setLED(1, (Passive == 0));          //Red Light
 
         // Adding Buttons to change the survo
         if (gamepad1.right_bumper){
-            servo.setPosition(.90);
+            servo_position = 1;
+            servo.setPosition(servo_position);
         } else if (gamepad1.left_bumper){
-            servo.setPosition(0);
+            servo_position = 0;
+            servo.setPosition(servo_position);
         }
 
         //Adding Screen Data
@@ -117,6 +117,7 @@ public class Color_Sensor_Servo_Test extends OpMode{
         telemetry.addData("Red Left", redlevelLeft);
         telemetry.addData("Blue Left", bluelevelLeft);
         telemetry.addData("White Left", whitelevelLeft);
+        telemetry.addData("Servo Position", servo_position);
         telemetry.addData("Passive", Passive);
 
         //Using wheel power to test as feedback for the color sensors

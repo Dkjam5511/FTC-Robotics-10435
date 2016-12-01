@@ -35,11 +35,6 @@ import com.qualcomm.robotcore.eventloop.opmode.OpModeManager;
 import com.qualcomm.robotcore.eventloop.opmode.OpModeRegister;
 import com.qualcomm.robotcore.eventloop.opmode.AnnotatedOpModeRegistrar;
 import org.firstinspires.ftc.robotcontroller.external.samples.ConceptNullOp;
-import org.firstinspires.ftc.teamcode.Autonomous_Left_Corner;
-import org.firstinspires.ftc.teamcode.Autonomous_Left_Side;
-import org.firstinspires.ftc.teamcode.Autonomous_Right_Corner;
-import org.firstinspires.ftc.teamcode.Autonomous_Right_Side;
-import org.firstinspires.ftc.teamcode.PushBotDriveTeleOp;
 
 /**
  * {@link FtcOpModeRegister} is responsible for registering opmodes for use in an FTC game.
