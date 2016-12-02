@@ -17,7 +17,6 @@ package org.firstinspires.ftc.teamcode;
 
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
-import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DeviceInterfaceModule;
 import com.qualcomm.robotcore.hardware.I2cAddr;
@@ -27,7 +26,7 @@ import com.qualcomm.robotcore.hardware.I2cDeviceSynchImpl;
 import com.qualcomm.robotcore.hardware.OpticalDistanceSensor;
 import com.qualcomm.robotcore.hardware.Servo;
 
-@Autonomous(name = "Beacon_Autonomous_Red", group = "Beacon")
+@Autonomous(name = "Beacon_Autonomous_Blue", group = "Beacon")
 
 public class Beacon_Autonomous_Blue extends LinearOpMode {
 
@@ -44,11 +43,12 @@ public class Beacon_Autonomous_Blue extends LinearOpMode {
     DeviceInterfaceModule CDI;
     Servo btn_servo;
     double white_level;
-    double correction;
-    double correction_sensitivity = 1;
+    double inside_correction = .05;
+    double outside_correction = .10;
+    double straight_speed = .13;
     double light_reading;
     double perfect_value = .28;
-    double wheelpower_base = .1;
+    double wheelpower_base = .5;
     double fuzz_factor = .05;
     double init_btn_servo_position = .63;
     double btn_servo_position;
@@ -98,9 +98,13 @@ public class Beacon_Autonomous_Blue extends LinearOpMode {
         waitForStart();
 
         while (opModeIsActive()) {
+            /*
+            leftWheel.setPower(1);
+            rightWheel.setPower(1);
+            sleep(400);
+            */
 
             while (too_far_away) {
-
 
                 while (!found_white) {
                     leftWheel.setPower(wheelpower_base);
@@ -110,7 +114,7 @@ public class Beacon_Autonomous_Blue extends LinearOpMode {
                     if (found_white) {
                         leftWheel.setPower(0);
                         rightWheel.setPower(0);
-                        sleep(500);
+                        sleep(200);
                     }
                     telemetry.addData("Light reading", light_reading);
                     telemetry.update();
@@ -120,37 +124,23 @@ public class Beacon_Autonomous_Blue extends LinearOpMode {
 
                 white_level = light_reading - perfect_value;
 
-                /*if (white_level > 0) {
-                    correction = white_level * 14 / 8;  // because max white is .08 higher than perfect_value and min white is .14 lower
-                } else {
-                    correction = -white_level;
-                }*/
-            /* Now correction should be between 0 and .14 */
-                correction = .09;
-
-                telemetry.addData("Correction1", correction);
                 telemetry.addData("Light reading", light_reading);
 
-                correction = correction_sensitivity * correction;
-                if (correction < .08) {
-                    correction = .08;
-                }
-                telemetry.addData("Correction2", correction);
             /* Now correction should be between 0 and .56 */
 
                 if (white_level < -fuzz_factor) {                    // turn right
-                    leftwheelpower = correction;
-                    rightwheelpower = -correction;
-                    telemetry.addData("turning left lw", leftwheelpower);
-                    telemetry.addData("turning left rw", rightwheelpower);
-                } else if (white_level > fuzz_factor){               // turn left
-                    leftwheelpower = -correction;
-                    rightwheelpower = correction;
+                    leftwheelpower = outside_correction;
+                    rightwheelpower = -inside_correction;
                     telemetry.addData("turning right lw", leftwheelpower);
                     telemetry.addData("turning right rw", rightwheelpower);
+                } else if (white_level > fuzz_factor){               // turn left
+                    leftwheelpower = -inside_correction;
+                    rightwheelpower = outside_correction ;
+                    telemetry.addData("turning left lw", leftwheelpower);
+                    telemetry.addData("turning left rw", rightwheelpower);
                 } else {                                            // go straight
-                    leftwheelpower = wheelpower_base;
-                    rightwheelpower = wheelpower_base;
+                    leftwheelpower = straight_speed;
+                    rightwheelpower = straight_speed;
                     telemetry.addData("going straight", leftwheelpower);
                 }
 
@@ -192,6 +182,8 @@ public class Beacon_Autonomous_Blue extends LinearOpMode {
             telemetry.addData("Blue Right", bluelevelRight);
             telemetry.addData("Red Left", redlevelLeft);
             telemetry.addData("Blue Left", bluelevelLeft);
-        } // end of odModeisActive
+
+            requestOpModeStop();
+        } // end of opModeisActive
     }// end off RunOpMode
 }//end class

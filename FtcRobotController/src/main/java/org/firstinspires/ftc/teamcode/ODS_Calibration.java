@@ -57,8 +57,8 @@ public class ODS_Calibration extends LinearOpMode {
         while (opModeIsActive()) {
 
             while (!found_white) {
-                leftWheel.setPower(wheelpower_base);
-                rightWheel.setPower(wheelpower_base);
+                //leftWheel.setPower(wheelpower_base);
+                //rightWheel.setPower(wheelpower_base);
                 light_reading = ODS.getLightDetected();
                 found_white = light_reading >= perfect_value - fuzz_factor;
                 if (found_white) {
@@ -67,6 +67,7 @@ public class ODS_Calibration extends LinearOpMode {
                     sleep(2000);
                 }
                 telemetry.addData("Light reading", light_reading);
+                telemetry.addData("Found White", found_white);
                 telemetry.update();
             }
 
@@ -94,23 +95,24 @@ public class ODS_Calibration extends LinearOpMode {
             /* Now correction should be between 0 and .56 */
 
             if (white_level < -fuzz_factor) {                    // turn left
-                leftwheelpower = -correction;
-                rightwheelpower = correction;
+                //leftwheelpower = -correction;
+                //rightwheelpower = correction;
                 telemetry.addData("turning left lw", leftwheelpower);
                 telemetry.addData("turning left rw", rightwheelpower);
             } else if (white_level > fuzz_factor){               // turn right
-                leftwheelpower = correction;
-                rightwheelpower = -correction;
+               //leftwheelpower = correction;
+                //rightwheelpower = -correction;
                 telemetry.addData("turning right lw", leftwheelpower);
                 telemetry.addData("turning right rw", rightwheelpower);
             } else {                                            // go straight
-                leftwheelpower = wheelpower_base;
-                rightwheelpower = wheelpower_base;
+                //leftwheelpower = wheelpower_base;
+                //rightwheelpower = wheelpower_base;
                 telemetry.addData("going straight", leftwheelpower);
             }
 
             //leftWheel.setPower(leftwheelpower);
             //rightWheel.setPower(rightwheelpower);
+            telemetry.addData("Found White", found_white);
 
 
             telemetry.update();
