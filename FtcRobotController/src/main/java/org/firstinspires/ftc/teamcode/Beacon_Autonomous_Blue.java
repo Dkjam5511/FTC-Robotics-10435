@@ -29,7 +29,7 @@ import com.qualcomm.robotcore.hardware.Servo;
 
 @Autonomous(name = "Beacon_Autonomous_Red", group = "Beacon")
 
-public class Beacon_Autonomous_Red extends LinearOpMode {
+public class Beacon_Autonomous_Blue extends LinearOpMode {
 
     //Instance of OpticalDistanceSensor
     OpticalDistanceSensor ODS;
@@ -76,8 +76,8 @@ public class Beacon_Autonomous_Red extends LinearOpMode {
         rightWheel = hardwareMap.dcMotor.get("right_drive");
         btn_servo = hardwareMap.servo.get("button_servo");
         CDI = hardwareMap.deviceInterfaceModule.get("Device Interface Module 1");
-        CDI.setLED(0, false);           //Blue light OFF
-        CDI.setLED(1, true);           //Red light On
+        CDI.setLED(0, true);           //Blue light On
+        CDI.setLED(1, false);           //Red light OFF
 
         // Set up right beacon sensor
         ColorRight = hardwareMap.i2cDevice.get("cs_right");
@@ -138,14 +138,14 @@ public class Beacon_Autonomous_Red extends LinearOpMode {
                 telemetry.addData("Correction2", correction);
             /* Now correction should be between 0 and .56 */
 
-                if (white_level < -fuzz_factor) {                    // turn left
-                    leftwheelpower = -correction;
-                    rightwheelpower = correction;
-                    telemetry.addData("turning left lw", leftwheelpower);
-                    telemetry.addData("turning left rw", rightwheelpower);
-                } else if (white_level > fuzz_factor){               // turn right
+                if (white_level < -fuzz_factor) {                    // turn right
                     leftwheelpower = correction;
                     rightwheelpower = -correction;
+                    telemetry.addData("turning left lw", leftwheelpower);
+                    telemetry.addData("turning left rw", rightwheelpower);
+                } else if (white_level > fuzz_factor){               // turn left
+                    leftwheelpower = -correction;
+                    rightwheelpower = correction;
                     telemetry.addData("turning right lw", leftwheelpower);
                     telemetry.addData("turning right rw", rightwheelpower);
                 } else {                                            // go straight
@@ -175,10 +175,10 @@ public class Beacon_Autonomous_Red extends LinearOpMode {
             leftWheel.setPower(0);
             rightWheel.setPower(0);
 
-            if (redlevelRight >= red_good){
+            if (bluelevelRight >= blue_good){
                 btn_servo_position = init_btn_servo_position - btn_servo_degrees;
                 btn_servo.setPosition(btn_servo_position);
-            }else if (redlevelLeft >= red_good){
+            }else if (bluelevelLeft >= blue_good){
                 btn_servo_position = init_btn_servo_position + btn_servo_degrees;
                 btn_servo.setPosition(btn_servo_position);
             }
