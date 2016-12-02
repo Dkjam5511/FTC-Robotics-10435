@@ -27,7 +27,7 @@ import com.qualcomm.robotcore.hardware.I2cDeviceSynchImpl;
 import com.qualcomm.robotcore.hardware.OpticalDistanceSensor;
 import com.qualcomm.robotcore.hardware.Servo;
 
-@Autonomous(name = "Beacon_Autonomous_Red", group = "Beacon")
+@Autonomous(name = "Beacon_Autonomous_Blue", group = "Beacon")
 
 public class Beacon_Autonomous_Red extends LinearOpMode {
 
