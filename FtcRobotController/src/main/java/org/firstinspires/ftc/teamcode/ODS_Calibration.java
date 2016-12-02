@@ -20,9 +20,9 @@ import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.OpticalDistanceSensor;
 
-@TeleOp(name = "Line Follow", group = "Tests and Calibration")
+@TeleOp(name = "ODS_Calibration", group = "Tests and Calibration")
 
-public class Test_Line_Follow extends LinearOpMode {
+public class ODS_Calibration extends LinearOpMode {
 
     //Instance of OpticalDistanceSensor
     OpticalDistanceSensor ODS;
@@ -99,18 +99,18 @@ public class Test_Line_Follow extends LinearOpMode {
                 telemetry.addData("turning left lw", leftwheelpower);
                 telemetry.addData("turning left rw", rightwheelpower);
             } else if (white_level > fuzz_factor){               // turn right
-                    leftwheelpower = correction;
-                    rightwheelpower = -correction;
-                    telemetry.addData("turning right lw", leftwheelpower);
-                    telemetry.addData("turning right rw", rightwheelpower);
+                leftwheelpower = correction;
+                rightwheelpower = -correction;
+                telemetry.addData("turning right lw", leftwheelpower);
+                telemetry.addData("turning right rw", rightwheelpower);
             } else {                                            // go straight
                 leftwheelpower = wheelpower_base;
                 rightwheelpower = wheelpower_base;
                 telemetry.addData("going straight", leftwheelpower);
             }
 
-            leftWheel.setPower(leftwheelpower);
-            rightWheel.setPower(rightwheelpower);
+            //leftWheel.setPower(leftwheelpower);
+            //rightWheel.setPower(rightwheelpower);
 
 
             telemetry.update();

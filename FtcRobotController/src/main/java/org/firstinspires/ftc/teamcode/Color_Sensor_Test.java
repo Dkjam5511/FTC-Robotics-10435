@@ -14,13 +14,12 @@ import com.qualcomm.robotcore.hardware.Servo;
 /**
  * Created by Drew on 11/26/2016.
  */
-@TeleOp(name="ColorSensor and Servo Test", group="Tests and Calibration")
-public class Color_Sensor_Servo_Test extends OpMode{
+@TeleOp(name="ColorSensor Test", group="Tests and Calibration")
+public class Color_Sensor_Test extends OpMode{
 
     DcMotor leftWheel;
     DcMotor rightWheel;
-    Servo servo;
-    I2cDevice ColorRight; 
+    I2cDevice ColorRight;
     I2cDeviceSynch ColorRightreader;  // right beacon sensor
     I2cDevice ColorLeft;
     I2cDeviceSynch ColorLeftreader;   // left beacon sensor
@@ -34,7 +33,6 @@ public class Color_Sensor_Servo_Test extends OpMode{
     int Passive;
     double leftWheelPower = 0;
     double rightWheelPower = 0;
-    double servo_position;
     byte[] TempByte;
 
     /*
@@ -45,19 +43,17 @@ public class Color_Sensor_Servo_Test extends OpMode{
         //Defining All our Machines in the Hardware Map
         leftWheel = hardwareMap.dcMotor.get("left_drive");
         rightWheel = hardwareMap.dcMotor.get("right_drive");
-        servo = hardwareMap.servo.get("button_servo");
-
         CDI = hardwareMap.deviceInterfaceModule.get("Device Interface Module 1");
         CDI.setLED(0, false);           //Blue light OFF
         CDI.setLED(1, false);           //Red light OFF
 
-        // Set up beacon sensor
+        // Set up right beacon sensor
         ColorRight = hardwareMap.i2cDevice.get("cs_right");
         ColorRightreader = new I2cDeviceSynchImpl(ColorRight, I2cAddr.create8bit(0x3c), false);
         ColorRightreader.engage();
         ColorRightreader.write8(3, Passive);    //Set the mode of the color sensor to passive
 
-        // Set up line sensor
+        // Set up left beacon sensor
         ColorLeft = hardwareMap.i2cDevice.get("cs_left");
         ColorLeftreader = new I2cDeviceSynchImpl(ColorLeft, I2cAddr.create8bit(0x3a), false);
         ColorLeftreader.engage();
@@ -101,15 +97,6 @@ public class Color_Sensor_Servo_Test extends OpMode{
         CDI.setLED(0, (Passive == 1));          //Blue light
         CDI.setLED(1, (Passive == 0));          //Red Light
 
-        // Adding Buttons to change the survo
-        if (gamepad1.right_bumper){
-            servo_position = 1;
-            servo.setPosition(servo_position);
-        } else if (gamepad1.left_bumper){
-            servo_position = 0;
-            servo.setPosition(servo_position);
-        }
-
         //Adding Screen Data
         telemetry.addData("Red Right", redlevelRight);
         telemetry.addData("Blue Right", bluelevelRight);
@@ -117,7 +104,6 @@ public class Color_Sensor_Servo_Test extends OpMode{
         telemetry.addData("Red Left", redlevelLeft);
         telemetry.addData("Blue Left", bluelevelLeft);
         telemetry.addData("White Left", whitelevelLeft);
-        telemetry.addData("Servo Position", servo_position);
         telemetry.addData("Passive", Passive);
 
         //Using wheel power to test as feedback for the color sensors
