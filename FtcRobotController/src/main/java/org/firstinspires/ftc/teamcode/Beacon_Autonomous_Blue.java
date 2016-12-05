@@ -47,12 +47,12 @@ public class Beacon_Autonomous_Blue extends LinearOpMode {
     double outside_correction = .10;
     double straight_speed = .13;
     double light_reading;
-    double perfect_value = .28;
-    double wheelpower_base = .5;
+    double perfect_value = .30;
+    double wheelpower_base = .15;
     double fuzz_factor = .05;
-    double init_btn_servo_position = .63;
+    double init_btn_servo_position = .45;
     double btn_servo_position;
-    double btn_servo_degrees = .15;
+    double btn_servo_degrees = .25;
 
     /* color sensor variables */
     int Passive = 1;
@@ -64,9 +64,13 @@ public class Beacon_Autonomous_Blue extends LinearOpMode {
     double rightwheelpower;
     double leftwheelpower;
     byte[] TempByte;
-    double red_good = 9;
-    double blue_good = 11;
+    double red_good = 15;
+    double blue_good = 30;
     boolean too_far_away = true;
+    boolean BluePressed = false;
+
+    /* telemetry */
+    boolean do_telemetry = false;
 
     @Override
     public void runOpMode() throws InterruptedException {
@@ -93,97 +97,144 @@ public class Beacon_Autonomous_Blue extends LinearOpMode {
 
         btn_servo.setPosition(init_btn_servo_position);
 
-        rightWheel.setDirection(DcMotor.Direction.REVERSE);
+        leftWheel.setDirection(DcMotor.Direction.REVERSE);
 
         waitForStart();
 
-        while (opModeIsActive()) {
             /*
+            // Go forward fast for a bit
             leftWheel.setPower(1);
             rightWheel.setPower(1);
             sleep(400);
             */
 
-            while (too_far_away) {
+        while (too_far_away && opModeIsActive()) {
 
-                while (!found_white) {
+            while (!found_white && opModeIsActive()) {
+                leftWheel.setPower(wheelpower_base + .01);
+                rightWheel.setPower(wheelpower_base);
+                light_reading = ODS.getLightDetected();
+                found_white = light_reading >= perfect_value - fuzz_factor;
+                if (found_white) {
                     leftWheel.setPower(wheelpower_base);
                     rightWheel.setPower(wheelpower_base);
-                    light_reading = ODS.getLightDetected();
-                    found_white = light_reading >= perfect_value - fuzz_factor;
-                    if (found_white) {
-                        leftWheel.setPower(0);
-                        rightWheel.setPower(0);
-                        sleep(200);
-                    }
-                    telemetry.addData("Light reading", light_reading);
-                    telemetry.update();
+                    sleep(250);  // Go over the line until back wheels over the line
+                    leftWheel.setPower(0);
+                    rightWheel.setPower(0);
+                    sleep(200);
                 }
+                if (do_telemetry) {telemetry.addData("Light reading", light_reading);}
+                if (do_telemetry) {telemetry.update();}
+            }
 
+            found_white = false;  // Turn right until it gets back on the line
+            while (!found_white && opModeIsActive()) {
+                leftWheel.setPower(.1);
+                rightWheel.setPower(-.1);
                 light_reading = ODS.getLightDetected();
+                found_white = light_reading >= perfect_value - fuzz_factor;
+                if (do_telemetry) {telemetry.addData("Light reading", light_reading);}
+                if (do_telemetry) {telemetry.update();}
+            }
 
-                white_level = light_reading - perfect_value;
-
-                telemetry.addData("Light reading", light_reading);
-
-            /* Now correction should be between 0 and .56 */
-
-                if (white_level < -fuzz_factor) {                    // turn right
-                    leftwheelpower = outside_correction;
-                    rightwheelpower = -inside_correction;
-                    telemetry.addData("turning right lw", leftwheelpower);
-                    telemetry.addData("turning right rw", rightwheelpower);
-                } else if (white_level > fuzz_factor){               // turn left
-                    leftwheelpower = -inside_correction;
-                    rightwheelpower = outside_correction ;
-                    telemetry.addData("turning left lw", leftwheelpower);
-                    telemetry.addData("turning left rw", rightwheelpower);
-                } else {                                            // go straight
-                    leftwheelpower = straight_speed;
-                    rightwheelpower = straight_speed;
-                    telemetry.addData("going straight", leftwheelpower);
-                }
-
-                leftWheel.setPower(leftwheelpower);
-                rightWheel.setPower(rightwheelpower);
-
-                //Setting Up Colors For Sensor Right
-                TempByte = ColorRightreader.read(0x05, 1);
-                redlevelRight = TempByte[0];
-                TempByte = ColorRightreader.read(0x07, 1);
-                bluelevelRight = TempByte[0];
-                //Setting Up Colors foe sensor Left
-                TempByte = ColorLeftreader.read(0x05, 1);
-                redlevelLeft = TempByte[0];
-                TempByte = ColorLeftreader.read(0x07, 1);
-                bluelevelLeft = TempByte[0];
-                telemetry.update();
-
-                too_far_away = redlevelLeft < red_good && redlevelRight < red_good && bluelevelLeft < blue_good && bluelevelRight < blue_good;
-
-            } // end of too_far_away
             leftWheel.setPower(0);
             rightWheel.setPower(0);
 
-            if (bluelevelRight >= blue_good){
+            light_reading = ODS.getLightDetected();
+
+            white_level = light_reading - perfect_value;
+
+            if (do_telemetry) {telemetry.addData("Light reading", light_reading);}
+
+            if (white_level < -fuzz_factor) {                    // Gray - turn right
+                rightwheelpower = -inside_correction;
+                leftwheelpower = outside_correction;
+                if (do_telemetry) {telemetry.addData("turning right lw", leftwheelpower);}
+                if (do_telemetry) {telemetry.addData("turning right rw", rightwheelpower);}
+            } else if (white_level > fuzz_factor){               // White - turn left
+                leftwheelpower = -inside_correction;
+                rightwheelpower = outside_correction;
+                if (do_telemetry) {telemetry.addData("turning left lw", leftwheelpower);}
+                if (do_telemetry) {telemetry.addData("turning left rw", rightwheelpower);}
+            } else {                                            // go straight
+                leftwheelpower = straight_speed;
+                rightwheelpower = straight_speed;
+                if (do_telemetry) {telemetry.addData("going straight", leftwheelpower);}
+            }
+
+            rightWheel.setPower(rightwheelpower);
+            leftWheel.setPower(leftwheelpower);
+
+            //Setting Up Colors For Sensor Right
+            TempByte = ColorRightreader.read(0x05, 1);
+            redlevelRight = TempByte[0];
+            TempByte = ColorRightreader.read(0x07, 1);
+            bluelevelRight = TempByte[0];
+            //Setting Up Colors foe sensor Left
+            TempByte = ColorLeftreader.read(0x05, 1);
+            redlevelLeft = TempByte[0];
+            TempByte = ColorLeftreader.read(0x07, 1);
+            bluelevelLeft = TempByte[0];
+            if (do_telemetry) {telemetry.update();}
+
+            too_far_away = redlevelLeft < red_good && redlevelRight < red_good && bluelevelLeft < blue_good && bluelevelRight < blue_good;
+
+        }// end of too_far_away
+
+        found_white = false;  // Turn right until it gets back on the line
+        while (!found_white && opModeIsActive()) {
+            leftWheel.setPower(.1);
+            rightWheel.setPower(-.1);
+            light_reading = ODS.getLightDetected();
+            found_white = light_reading >= perfect_value - fuzz_factor;
+            if (do_telemetry) {telemetry.addData("Light reading", light_reading);}
+            if (do_telemetry) {telemetry.update();}
+        }
+
+        leftWheel.setPower(.15);  // Now get a titch closer
+        rightWheel.setPower(.15);
+        sleep(50);
+
+        leftWheel.setPower(0);
+        rightWheel.setPower(0);
+
+        while (!BluePressed && opModeIsActive()) {
+
+            if (bluelevelRight >= blue_good) {
                 btn_servo_position = init_btn_servo_position - btn_servo_degrees;
                 btn_servo.setPosition(btn_servo_position);
-            }else if (bluelevelLeft >= blue_good){
+            } else if (bluelevelLeft >= blue_good) {
                 btn_servo_position = init_btn_servo_position + btn_servo_degrees;
                 btn_servo.setPosition(btn_servo_position);
             }
             sleep(2000);
             btn_servo.setPosition(init_btn_servo_position);
 
-            leftWheel.setPower(-1);
-            rightWheel.setPower(-1);
+            //Setting Up Colors For Sensor Right
+            TempByte = ColorRightreader.read(0x05, 1);
+            redlevelRight = TempByte[0];
+            TempByte = ColorRightreader.read(0x07, 1);
+            bluelevelRight = TempByte[0];
+            //Setting Up Colors foe sensor Left
+            TempByte = ColorLeftreader.read(0x05, 1);
+            redlevelLeft = TempByte[0];
+            TempByte = ColorLeftreader.read(0x07, 1);
+            bluelevelLeft = TempByte[0];
 
-            telemetry.addData("Red Right", redlevelRight);
-            telemetry.addData("Blue Right", bluelevelRight);
-            telemetry.addData("Red Left", redlevelLeft);
-            telemetry.addData("Blue Left", bluelevelLeft);
+            BluePressed = bluelevelLeft >= 8 && bluelevelRight >= 8;
+            if (do_telemetry) {telemetry.addData("Blue Level Left", bluelevelLeft);}
+            if (do_telemetry) {telemetry.addData("Blue Level Right", bluelevelRight);}
+        }
 
-            requestOpModeStop();
-        } // end of opModeisActive
+        leftWheel.setPower(-1);
+        rightWheel.setPower(-1);
+        sleep(300);
+
+        if (do_telemetry) {telemetry.addData("Red Right", redlevelRight);}
+        if (do_telemetry) {telemetry.addData("Blue Right", bluelevelRight);}
+        if (do_telemetry) {telemetry.addData("Red Left", redlevelLeft);}
+        if (do_telemetry) {telemetry.addData("Blue Left", bluelevelLeft);}
+
+        requestOpModeStop();
     }// end off RunOpMode
 }//end class

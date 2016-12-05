@@ -24,7 +24,7 @@ public class Autonomous_Left_Corner extends LinearOpMode {
         leftWheel = hardwareMap.dcMotor.get("left_drive");
         rightWheel = hardwareMap.dcMotor.get("right_drive");
         //Reversing one wheel that didn't work
-        leftWheel.setDirection(DcMotor.Direction.REVERSE);
+        rightWheel.setDirection(DcMotor.Direction.REVERSE);
         //Setting Wheel Power
         leftWheelPower = -1;
         rightWheelPower = -1;

@@ -15,7 +15,7 @@ public class Servo_Calibration extends OpMode{
     @Override
     public void init() {
         servo = hardwareMap.servo.get("button_servo");
-        servo_position = .63;
+        servo_position = .45;
         servo.setPosition(servo_position);
 
     }

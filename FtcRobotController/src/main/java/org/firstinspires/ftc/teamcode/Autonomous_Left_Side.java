@@ -26,7 +26,7 @@ public class Autonomous_Left_Side extends LinearOpMode {
         leftWheel = hardwareMap.dcMotor.get("left_drive");
         rightWheel = hardwareMap.dcMotor.get("right_drive");
 
-        leftWheel.setDirection(DcMotor.Direction.REVERSE);
+        rightWheel.setDirection(DcMotor.Direction.REVERSE);
 
         leftWheelPower = -1;
         rightWheelPower = -1;
