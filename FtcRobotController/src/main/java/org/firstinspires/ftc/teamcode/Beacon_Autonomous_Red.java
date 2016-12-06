@@ -25,6 +25,7 @@ import com.qualcomm.robotcore.hardware.I2cDeviceSynch;
 import com.qualcomm.robotcore.hardware.I2cDeviceSynchImpl;
 import com.qualcomm.robotcore.hardware.OpticalDistanceSensor;
 import com.qualcomm.robotcore.hardware.Servo;
+import com.qualcomm.robotcore.hardware.TouchSensor;
 
 @Autonomous(name = "Beacon_Autonomous_Red", group = "Beacon")
 
@@ -42,14 +43,15 @@ public class Beacon_Autonomous_Red extends LinearOpMode {
     I2cDeviceSynch ColorLeftreader;   // left beacon sensor
     DeviceInterfaceModule CDI;
     Servo btn_servo;
+    TouchSensor touchSensor;
     double white_level;
-    double inside_correction = .05;
-    double outside_correction = .10;
+    double inside_correction = .07;
+    double outside_correction = .1;
     double straight_speed = .13;
     double light_reading;
-    double perfect_value = .30;
+    double perfect_value = .34;
     double wheelpower_base = .15;
-    double fuzz_factor = .05;
+    double fuzz_factor = .03;
     double init_btn_servo_position = .45;
     double btn_servo_position;
     double btn_servo_degrees = .25;
@@ -64,7 +66,7 @@ public class Beacon_Autonomous_Red extends LinearOpMode {
     double rightwheelpower;
     double leftwheelpower;
     byte[] TempByte;
-    double red_good = 15;
+    double red_good = 14;
     double blue_good = 30;
     boolean too_far_away = true;
     boolean RedPressed = false;
@@ -79,6 +81,7 @@ public class Beacon_Autonomous_Red extends LinearOpMode {
         leftWheel = hardwareMap.dcMotor.get("left_drive");
         rightWheel = hardwareMap.dcMotor.get("right_drive");
         btn_servo = hardwareMap.servo.get("button_servo");
+        touchSensor = hardwareMap.touchSensor.get("TouchSensor");
         CDI = hardwareMap.deviceInterfaceModule.get("Device Interface Module 1");
         CDI.setLED(0, false);           //Blue light Off
         CDI.setLED(1, true);           //Red light On
@@ -118,7 +121,7 @@ public class Beacon_Autonomous_Red extends LinearOpMode {
                 if (found_white) {
                     leftWheel.setPower(wheelpower_base);
                     rightWheel.setPower(wheelpower_base);
-                    sleep(250);  // Go over the line until back wheels over the line
+                    sleep(280);  // Go over the line until back wheels over the line
                     leftWheel.setPower(0);
                     rightWheel.setPower(0);
                     sleep(200);
@@ -177,7 +180,10 @@ public class Beacon_Autonomous_Red extends LinearOpMode {
             bluelevelLeft = TempByte[0];
             if (do_telemetry) {telemetry.update();}
 
-            too_far_away = redlevelLeft < red_good && redlevelRight < red_good && bluelevelLeft < blue_good && bluelevelRight < blue_good;
+            //too_far_away = redlevelLeft < red_good && redlevelRight < red_good && bluelevelLeft < blue_good && bluelevelRight < blue_good;
+            if (touchSensor.isPressed()){
+                too_far_away = false;
+            }
 
         } // end of too_far_away
 
