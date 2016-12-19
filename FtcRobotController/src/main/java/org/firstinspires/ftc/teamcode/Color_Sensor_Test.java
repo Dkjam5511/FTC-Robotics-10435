@@ -13,7 +13,7 @@ import com.qualcomm.robotcore.hardware.Servo;
 
 /**
  * Created by Drew on 11/26/2016.
- * 
+ *
  */
 @TeleOp(name="ColorSensor Test", group="Tests and Calibration")
 public class Color_Sensor_Test extends OpMode{
@@ -31,7 +31,7 @@ public class Color_Sensor_Test extends OpMode{
     int bluelevelLeft;
     int redlevelLeft;
     int whitelevelLeft;
-    int Passive;
+    int Passive = 1;
     double leftWheelPower = 0;
     double rightWheelPower = 0;
     byte[] TempByte;
