@@ -12,12 +12,13 @@ package org.firstinspires.ftc.teamcode;
  * Created by Drew on 10/16/2016.
  * :P
  */
-@TeleOp(name="Drive", group="Drive")
+@TeleOp(name="TeleOp", group="Drive")
 public class PushBotTeleOp extends OpMode {
 
     DcMotor leftWheel;
     DcMotor rightWheel;
     DcMotor LiftMotor;
+    DcMotor ShootMotor;
     Servo btn_servo;
     Servo left_lift_servo;
     Servo right_lift_servo;
@@ -25,21 +26,21 @@ public class PushBotTeleOp extends OpMode {
     double init_btn_servo_position = .45;
     double btn_servo_position;
     double btn_servo_degrees = .2;
-    double init_lift_servo_position = 0;
-    double lift_servo_position;
-    double lift_servo_degrees = 50;
     double leftWheelPower = 0;
     double rightWheelPower = 0;
     double Speed = 1;
     double LiftSpeed = 1;
     double LeftSpeedInput;
     double RightSpeedInput;
-    double ServoPower = 0;
+    double ServoPower;
     double LiftPower;
     boolean SlowMode = false;
     boolean BlueOn;
     boolean RedOn;
     boolean Reverse = false;
+    double init_lift_servo_position = 0;
+    double lift_servo_position;
+    double lift_servo_degrees = 50;
 
     @Override
     public void init() {
@@ -47,6 +48,7 @@ public class PushBotTeleOp extends OpMode {
         leftWheel = hardwareMap.dcMotor.get("left_drive");
         rightWheel = hardwareMap.dcMotor.get("right_drive");
         LiftMotor = hardwareMap.dcMotor.get("lift_motor");
+        ShootMotor = hardwareMap.dcMotor.get("shoot_motor");
         btn_servo = hardwareMap.servo.get("button_servo");
         left_lift_servo = hardwareMap.servo.get("left_fork");
         right_lift_servo = hardwareMap.servo.get("right_fork");
@@ -95,17 +97,17 @@ public class PushBotTeleOp extends OpMode {
         RightSpeedInput = gamepad1.right_stick_y * Speed;
 
         if(gamepad1.dpad_up){
-            LeftSpeedInput = -.09;
-            RightSpeedInput = -.09;
+            LeftSpeedInput = -.11;
+            RightSpeedInput = -.11;
         } else if (gamepad1.dpad_down){
-            LeftSpeedInput = 0.09;
-            RightSpeedInput = 0.09;
+            LeftSpeedInput = 0.11;
+            RightSpeedInput = 0.11;
         } else if (gamepad1.dpad_left){
-            LeftSpeedInput = 0.09;
-            RightSpeedInput = -0.09;
+            LeftSpeedInput = 0.11;
+            RightSpeedInput = -0.11;
         } else if (gamepad1.dpad_right){
-            LeftSpeedInput = -0.09;
-            RightSpeedInput = 0.09;
+            LeftSpeedInput = -0.11;
+            RightSpeedInput = 0.11;
         }
 
         if (Reverse) {
@@ -120,11 +122,39 @@ public class PushBotTeleOp extends OpMode {
             rightWheelPower = RightSpeedInput;
         }
 
+        if(gamepad2.x){
+            ShootMotor.setPower(1);
+        }
+
+        if (gamepad2.y){
+            ShootMotor.setPower(0);
+        }
+
         //Sending Those Wheel Powers to the Actual Wheels
         leftWheel.setPower(leftWheelPower);
         rightWheel.setPower(rightWheelPower);
 
-        //Setting the btn_servo position to the triggers
+       /* if (gamepad1.right_trigger == 1){
+            btn_servo_position = init_btn_servo_position - btn_servo_degrees;
+            btn_servo.setPosition(btn_servo_position);
+        }
+        else if (gamepad1.right_trigger == 0){
+            btn_servo_position = init_btn_servo_position;
+            btn_servo.setPosition(btn_servo_position);
+        }
+
+        if (gamepad1.left_trigger == 1){
+            btn_servo_position = init_btn_servo_position + btn_servo_degrees;
+            btn_servo.setPosition(btn_servo_position);
+        }
+        else if (gamepad1.left_trigger == 0){
+            btn_servo_position = init_btn_servo_position;
+            btn_servo.setPosition(btn_servo_position);
+        }
+        */
+
+            //Setting the btn_servo position to the triggers
+
         if (gamepad1.right_trigger == 1) {
             btn_servo_position = init_btn_servo_position - btn_servo_degrees;
             btn_servo.setPosition(btn_servo_position);
@@ -140,20 +170,7 @@ public class PushBotTeleOp extends OpMode {
             btn_servo.setPosition(btn_servo_position);
         }
 
-        /*
-        if (gamepad2.y) {
 
-            lift_servo_position = init_lift_servo_position - lift_servo_degrees;
-            right_lift_servo.setPosition(btn_servo_position);
-            left_lift_servo.setPosition(btn_servo_position);
-        }
-
-        if (gamepad2.a) {
-            lift_servo_position = init_lift_servo_position + lift_servo_degrees;
-            right_lift_servo.setPosition(btn_servo_position);
-            left_lift_servo.setPosition(btn_servo_position);
-        }
-        */
         if (gamepad2.right_bumper){
             LiftSpeed = .5;
         }
@@ -175,14 +192,12 @@ public class PushBotTeleOp extends OpMode {
         //Changing light based on speed
         CDI.setLED(0, BlueOn);           //Blue light
         CDI.setLED(1, RedOn);           //Red light
-
-        telemetry.addData("Reverse", Reverse);
-        telemetry.addData("SlowMode", SlowMode);
-
     }
 
+   /*
     @Override
-    public void stop () {
+    public void stop() {
 
     }
+    */
 }

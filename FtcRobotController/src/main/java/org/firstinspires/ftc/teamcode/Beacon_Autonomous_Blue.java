@@ -27,6 +27,8 @@ import com.qualcomm.robotcore.hardware.OpticalDistanceSensor;
 import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.hardware.TouchSensor;
 
+import static com.qualcomm.robotcore.hardware.DcMotor.RunMode.RUN_USING_ENCODERS;
+
 @Autonomous(name = "Beacon_Autonomous_Blue", group = "Beacon")
 
 public class Beacon_Autonomous_Blue extends LinearOpMode {
@@ -46,13 +48,14 @@ public class Beacon_Autonomous_Blue extends LinearOpMode {
     // line follow variables
     double white_level;
     double inside_correction = -.04;
-    double outside_correction = .09;
+    double outside_correction = .11;
     double straight_speed = .16;
     double light_reading;
-    double perfect_value = .24;
+    double perfect_value = .26;
     double fuzz_factor = .05;
     double wheelpower_base = .15;
     double wheelpower_base_left = 0;
+    double turnspeed =.12;
 
     // color sensor and button pushing variables
     int Passive = 1;
@@ -131,8 +134,8 @@ public class Beacon_Autonomous_Blue extends LinearOpMode {
         }
 
         found_white = false;  // Turn right until it gets back on the line
-        if (!do_telemetry) {leftWheel.setPower(.1);}
-        if (!do_telemetry) {rightWheel.setPower(-.1);}
+        if (!do_telemetry) {leftWheel.setPower(turnspeed);}
+        if (!do_telemetry) {rightWheel.setPower(-turnspeed);}
         while (!found_white && opModeIsActive()) {
             light_reading = ODS.getLightDetected();
             found_white = light_reading >= perfect_value - fuzz_factor;
@@ -261,7 +264,7 @@ public class Beacon_Autonomous_Blue extends LinearOpMode {
         // Turn left 90 degrees
         if (!do_telemetry) {leftWheel.setPower(-.2 + -wheelpower_base_left);}
         if (!do_telemetry) {rightWheel.setPower(.2);}
-        sleep(1000);
+        sleep(1045);
 
         /*
         // Go forward fast for a bit
@@ -273,14 +276,14 @@ public class Beacon_Autonomous_Blue extends LinearOpMode {
         // Go until we see the white line, cross it and exit the loop
         found_white = false;
         while (!found_white && opModeIsActive()) {
-            if (!do_telemetry) {leftWheel.setPower(wheelpower_base + wheelpower_base_left);}  // The .01 is because our left motor is weak
+            if (!do_telemetry) {leftWheel.setPower(wheelpower_base + wheelpower_base_left);}
             if (!do_telemetry) {rightWheel.setPower(wheelpower_base);}
             light_reading = ODS.getLightDetected();
             found_white = light_reading >= perfect_value - fuzz_factor;
             if (found_white) {
                 if (!do_telemetry) {leftWheel.setPower(wheelpower_base + wheelpower_base_left);}
                 if (!do_telemetry) {rightWheel.setPower(wheelpower_base);}
-                sleep(280);  // Go over the line until back wheels over the line
+                sleep(270);  // Go over the line until back wheels over the line
                 leftWheel.setPower(0);
                 rightWheel.setPower(0);
                 sleep(200);
@@ -290,8 +293,8 @@ public class Beacon_Autonomous_Blue extends LinearOpMode {
         }
 
         found_white = false;  // Turn right until it gets back on the line
-        if (!do_telemetry) {leftWheel.setPower(.1);}
-        if (!do_telemetry) {rightWheel.setPower(-.1);}
+        if (!do_telemetry) {leftWheel.setPower(turnspeed + .1);}
+        if (!do_telemetry) {rightWheel.setPower(-turnspeed - .1);}
         while (!found_white && opModeIsActive()) {
             light_reading = ODS.getLightDetected();
             found_white = light_reading >= perfect_value - fuzz_factor;
@@ -301,6 +304,9 @@ public class Beacon_Autonomous_Blue extends LinearOpMode {
 
         leftWheel.setPower(0);
         rightWheel.setPower(0);
+
+        telemetry.addData("Found white", light_reading);
+        telemetry.update();
 
         // Line follow code
         too_far_away = true;
