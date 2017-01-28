@@ -3,7 +3,6 @@ package org.firstinspires.ftc.teamcode;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.DcMotor;
-import com.qualcomm.robotcore.hardware.DcMotorSimple;
 
 /**
  * Created by Drew on 1/16/2017.
@@ -32,7 +31,7 @@ public class Encoder_Test extends OpMode {
         leftWheel.setMode(DcMotor.RunMode.RUN_TO_POSITION);
         rightWheel.setMode(DcMotor.RunMode.RUN_TO_POSITION);
 
-        leftWheel.setDirection(DcMotorSimple.Direction.REVERSE);
+        leftWheel.setDirection(DcMotor.Direction.REVERSE);
     }
 
     private void Forward(double power) {

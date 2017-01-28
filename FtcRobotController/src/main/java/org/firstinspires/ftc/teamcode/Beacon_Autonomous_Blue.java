@@ -1,20 +1,12 @@
 /*
-Modern Robotics ODS Wall Follow Example
-Updated 11/4/2016 by Colton Mehlhoff of Modern Robotics using FTC SDK 2.35
-Reuse permitted with credit where credit is due
-
-Configuration:
-Optical Distance sensor named "ods"
-Left drive train motor named "ml"  (two letters)
-Right drive train motor named "mr"
-Both motors need encoders
-
-For more information, go to http://modernroboticsedu.com/course/view.php?id=5
-Support is available by emailing support@modernroboticsinc.com.
+Beacon Autonomous Blue
+by Drew Kinneer
+Team 10435
 */
 
 package org.firstinspires.ftc.teamcode;
 
+import com.qualcomm.hardware.modernrobotics.ModernRoboticsI2cGyro;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
@@ -34,6 +26,8 @@ import static com.qualcomm.robotcore.hardware.DcMotor.RunMode.RUN_USING_ENCODERS
 public class Beacon_Autonomous_Blue extends LinearOpMode {
 
     //Hardware
+    Servo ball_gate_servo;
+    DcMotor ShootMotor;
     DcMotor leftWheel;
     DcMotor rightWheel;
     I2cDevice ColorRight;
@@ -47,15 +41,17 @@ public class Beacon_Autonomous_Blue extends LinearOpMode {
 
     // line follow variables
     double white_level;
-    double inside_correction = -.04;
-    double outside_correction = .11;
+    double inside_correction = -.08;
+    double outside_correction = .16;
     double straight_speed = .16;
     double light_reading;
     double perfect_value = .26;
     double fuzz_factor = .05;
     double wheelpower_base = .15;
     double wheelpower_base_left = 0;
-    double turnspeed =.12;
+    double turnspeed = .3;
+    int over_white = 420;
+    double over_white2;
 
     // color sensor and button pushing variables
     int Passive = 1;
@@ -63,6 +59,8 @@ public class Beacon_Autonomous_Blue extends LinearOpMode {
     int redlevelRight;
     int bluelevelLeft;
     int redlevelLeft;
+    int ShootTarget = 2880;
+    int StartPositionS;
     boolean found_white = false;
     double rightwheelpower;
     double leftwheelpower;
@@ -77,6 +75,14 @@ public class Beacon_Autonomous_Blue extends LinearOpMode {
     // telemetry
     boolean do_telemetry = false;
 
+    public void Shoot() throws InterruptedException {
+        StartPositionS = ShootMotor.getCurrentPosition();
+        ShootMotor.setPower(1);
+        ShootMotor.setTargetPosition(ShootTarget + StartPositionS);
+        sleep(500);
+        ShootMotor.setPower(0);
+    }
+
     @Override
     public void runOpMode() throws InterruptedException {
 
@@ -85,6 +91,8 @@ public class Beacon_Autonomous_Blue extends LinearOpMode {
         rightWheel = hardwareMap.dcMotor.get("right_drive");
         btn_servo = hardwareMap.servo.get("button_servo");
         touchSensor = hardwareMap.touchSensor.get("TouchSensor");
+        ball_gate_servo = hardwareMap.servo.get("ball_gate");
+        ShootMotor = hardwareMap.dcMotor.get("shoot_motor");
         CDI = hardwareMap.deviceInterfaceModule.get("Device Interface Module 1");
         CDI.setLED(0, true);           //Blue light On
         CDI.setLED(1, false);           //Red light OFF
@@ -105,6 +113,12 @@ public class Beacon_Autonomous_Blue extends LinearOpMode {
 
         leftWheel.setDirection(DcMotor.Direction.REVERSE);
 
+
+
+
+
+        ball_gate_servo.setPosition(1);
+
         waitForStart();
 
         /*
@@ -124,7 +138,7 @@ public class Beacon_Autonomous_Blue extends LinearOpMode {
             if (found_white) {
                 if (!do_telemetry) {leftWheel.setPower(wheelpower_base + wheelpower_base_left);}
                 if (!do_telemetry) {rightWheel.setPower(wheelpower_base);}
-                sleep(280);  // Go over the line until back wheels over the line
+                sleep(over_white);  // Go over the line until back wheels are over the line
                 leftWheel.setPower(0);
                 rightWheel.setPower(0);
                 sleep(200);
@@ -252,6 +266,18 @@ public class Beacon_Autonomous_Blue extends LinearOpMode {
             if (do_telemetry) {telemetry.update();}
         }
 
+        Shoot();
+
+        ball_gate_servo.setPosition(0);
+
+        sleep(2000);
+
+        Shoot();
+
+        sleep(300);
+
+        ball_gate_servo.setPosition(1);
+
         // Back up a bit
         if (!do_telemetry) {leftWheel.setPower(-1);}
         if (!do_telemetry) {rightWheel.setPower(-1);}
@@ -261,10 +287,11 @@ public class Beacon_Autonomous_Blue extends LinearOpMode {
         leftWheel.setPower(0);
         rightWheel.setPower(0);
 
+
         // Turn left 90 degrees
         if (!do_telemetry) {leftWheel.setPower(-.2 + -wheelpower_base_left);}
         if (!do_telemetry) {rightWheel.setPower(.2);}
-        sleep(1045);
+        sleep(2090);
 
         /*
         // Go forward fast for a bit
@@ -272,6 +299,8 @@ public class Beacon_Autonomous_Blue extends LinearOpMode {
         rightWheel.setPower(1);
         sleep(400);
         */
+
+        over_white = (int) (over_white * .7);
 
         // Go until we see the white line, cross it and exit the loop
         found_white = false;
@@ -283,7 +312,7 @@ public class Beacon_Autonomous_Blue extends LinearOpMode {
             if (found_white) {
                 if (!do_telemetry) {leftWheel.setPower(wheelpower_base + wheelpower_base_left);}
                 if (!do_telemetry) {rightWheel.setPower(wheelpower_base);}
-                sleep(270);  // Go over the line until back wheels over the line
+                sleep(over_white);  // Go over the line until back wheels over the line
                 leftWheel.setPower(0);
                 rightWheel.setPower(0);
                 sleep(200);
@@ -293,8 +322,8 @@ public class Beacon_Autonomous_Blue extends LinearOpMode {
         }
 
         found_white = false;  // Turn right until it gets back on the line
-        if (!do_telemetry) {leftWheel.setPower(turnspeed + .1);}
-        if (!do_telemetry) {rightWheel.setPower(-turnspeed - .1);}
+        if (!do_telemetry) {leftWheel.setPower(turnspeed);}
+        if (!do_telemetry) {rightWheel.setPower(-turnspeed);}
         while (!found_white && opModeIsActive()) {
             light_reading = ODS.getLightDetected();
             found_white = light_reading >= perfect_value - fuzz_factor;

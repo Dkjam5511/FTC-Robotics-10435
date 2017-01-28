@@ -115,28 +115,37 @@ public class Gyro_Beacon_Blue extends LinearOpMode {
         go_forward(72, 30, 1, true);
         if (!found_white) {
             turn_to_heading(0);  // If we missed the line, try to change angle before backing up.
-            go_forward(12, 0, -.3, true);
+            go_forward(14, 0, -.3, true);
         } else {
-            go_forward(12, 30, -.3, true);
+            go_forward(6, 30, -.3, true);
         }
         turn_to_heading(90);
         go_forward(14, 90, .5, false);
 
+        // shoot balls
+        Shoot();
+        ball_gate_servo.setPosition(0);
+        sleep(2000);
+        Shoot();
+        sleep(300);
+        ball_gate_servo.setPosition(1);
+
+
         // hit first beacon
-        sleep(1000);
+        button_push("blue");
 
         // back up, get lined up
-        go_forward(15, 90, -1, false);
+        go_forward(8, 90, -1, false);
         turn_to_heading(0);
 
         // go to second white line
-        go_forward(72, 0, 1, true);
+        go_forward(54, 0, 1, true);
         go_forward(8, 0, -.3, true);
         turn_to_heading(90);
         go_forward(14, 90, .5, false);
 
         // hit first beacon
-        sleep(1000);
+        button_push("blue");
 
         // back up
         go_forward(16, 90, -1, false);
@@ -301,6 +310,54 @@ public class Gyro_Beacon_Blue extends LinearOpMode {
         sleep(100);  // do we really need these?  Try without
 
     } // end of go_forward
+    
+    public void button_push(String BorR) {
 
+        int colorlevelRight;
+        int colorlevelLeft;
+        byte[] TempByte;
+        boolean button_pressed = false;
+        double color_good = 8;
+        int current_color = 0x07;
+        
+        if (BorR == "blue"){
+            current_color = 0x07;
+            color_good = 8;
+        }else if (BorR == "red"){
+            current_color = 0x05;
+            color_good = 4;
+        }
+        
+        
+
+        // Do the first color reads
+        TempByte = ColorRightreader.read(current_color, 1);
+        colorlevelRight = TempByte[0];
+        TempByte = ColorLeftreader.read(current_color, 1);
+        colorlevelLeft = TempByte[0];
+
+        // Button pressing section
+        button_pressed = false;
+        while (!button_pressed && opModeIsActive()) {
+
+            if (colorlevelRight > colorlevelLeft && colorlevelRight >= color_good) {
+                btn_servo_position = init_btn_servo_position - btn_servo_degrees;
+                btn_servo.setPosition(btn_servo_position);
+            } else if (colorlevelLeft > colorlevelRight && colorlevelLeft >= color_good) {
+                btn_servo_position = init_btn_servo_position + btn_servo_degrees;
+                btn_servo.setPosition(btn_servo_position);
+            }
+            sleep(1000);
+            btn_servo.setPosition(init_btn_servo_position);
+
+            //Read color sensosrs
+            TempByte = ColorRightreader.read(current_color, 1);
+            colorlevelRight = TempByte[0];
+            TempByte = ColorLeftreader.read(current_color, 1);
+            colorlevelLeft = TempByte[0];
+
+            button_pressed = colorlevelLeft >= color_good && colorlevelRight >= color_good;
+        }
+    }
 }
 

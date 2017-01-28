@@ -18,7 +18,7 @@ public class Ball_Shooter_Test extends LinearOpMode {
     int ShootTarget = 2880;
     int StartPositionS;
 
-    private void Shoot() {
+    public void Shoot() throws InterruptedException {
         StartPositionS = ShootMotor.getCurrentPosition();
         ShootMotor.setPower(1);
         ShootMotor.setTargetPosition(ShootTarget + StartPositionS);

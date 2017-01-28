@@ -194,10 +194,10 @@ public class PushBotTeleOp extends OpMode {
         CDI.setLED(1, RedOn);           //Red light
     }
 
-   /*
+
     @Override
     public void stop() {
 
     }
-    */
+
 }

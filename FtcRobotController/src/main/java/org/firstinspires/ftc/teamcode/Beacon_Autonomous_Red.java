@@ -15,6 +15,8 @@ Support is available by emailing support@modernroboticsinc.com.
 
 package org.firstinspires.ftc.teamcode;
 
+import android.test.InstrumentationTestRunner;
+
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
@@ -32,6 +34,8 @@ import com.qualcomm.robotcore.hardware.TouchSensor;
 public class Beacon_Autonomous_Red extends LinearOpMode {
 
     //Hardware
+    Servo ball_gate_servo;
+    DcMotor ShootMotor;
     DcMotor leftWheel;
     DcMotor rightWheel;
     I2cDevice ColorRight;
@@ -45,15 +49,15 @@ public class Beacon_Autonomous_Red extends LinearOpMode {
 
     // line follow variables
     double white_level;
-    double inside_correction = -.04;
-    double outside_correction = .11;
+    double inside_correction = -.08;
+    double outside_correction = .16;
     double straight_speed = .16;
     double light_reading;
     double perfect_value = .26;
     double fuzz_factor = .05;
     double wheelpower_base = .15;
     double wheelpower_base_left = 0;
-    double turnspeed =.12;
+    double turnspeed =.25;
 
     // color sensor and button pushing variables
     int Passive = 1;
@@ -61,6 +65,8 @@ public class Beacon_Autonomous_Red extends LinearOpMode {
     int redlevelRight;
     int bluelevelLeft;
     int redlevelLeft;
+    int ShootTarget = 2880;
+    int StartPositionS;
     boolean found_white = false;
     double rightwheelpower;
     double leftwheelpower;
@@ -75,6 +81,14 @@ public class Beacon_Autonomous_Red extends LinearOpMode {
     // telemetry
     boolean do_telemetry = false;
 
+    private void Shoot() throws InterruptedException {
+        StartPositionS = ShootMotor.getCurrentPosition();
+        ShootMotor.setPower(1);
+        ShootMotor.setTargetPosition(ShootTarget + StartPositionS);
+        sleep(500);
+        ShootMotor.setPower(0);
+    }
+
     @Override
     public void runOpMode() throws InterruptedException {
 
@@ -83,6 +97,8 @@ public class Beacon_Autonomous_Red extends LinearOpMode {
         rightWheel = hardwareMap.dcMotor.get("right_drive");
         btn_servo = hardwareMap.servo.get("button_servo");
         touchSensor = hardwareMap.touchSensor.get("TouchSensor");
+        ball_gate_servo = hardwareMap.servo.get("ball_gate");
+        ShootMotor = hardwareMap.dcMotor.get("shoot_motor");
         CDI = hardwareMap.deviceInterfaceModule.get("Device Interface Module 1");
         CDI.setLED(0, false);           //Blue light Off
         CDI.setLED(1, true);           //Red light On
@@ -101,7 +117,11 @@ public class Beacon_Autonomous_Red extends LinearOpMode {
 
         btn_servo.setPosition(init_btn_servo_position);
 
+        ShootMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+
         leftWheel.setDirection(DcMotor.Direction.REVERSE);
+
+        ball_gate_servo.setPosition(1);
 
         waitForStart();
         /*
@@ -121,7 +141,7 @@ public class Beacon_Autonomous_Red extends LinearOpMode {
             if (found_white) {
                 if (!do_telemetry) {leftWheel.setPower(wheelpower_base);}
                 if (!do_telemetry) {rightWheel.setPower(wheelpower_base);}
-                sleep(280);  // Go over the line until back wheels over the line
+                sleep(360);  // Go over the line until back wheels over the line
                 leftWheel.setPower(0);
                 rightWheel.setPower(0);
                 sleep(200);
@@ -258,10 +278,23 @@ public class Beacon_Autonomous_Red extends LinearOpMode {
         leftWheel.setPower(0);
         rightWheel.setPower(0);
 
+        Shoot();
+
+        ball_gate_servo.setPosition(0);
+
+        sleep(2000);
+
+        Shoot();
+
+        sleep(300);
+
+        ball_gate_servo.setPosition(1);
+
+
         // Turn right 90 degrees
         if (!do_telemetry) {leftWheel.setPower(.2 + wheelpower_base_left);}
         if (!do_telemetry) {rightWheel.setPower(-.2);}
-        sleep(1045);
+        sleep(2090);
 
         /*
         // Go forward fast for a bit
